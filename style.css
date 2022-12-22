@@ -1,0 +1,6 @@
+html body{
+  width:100vh
+}
+#output{
+  user-select:all
+}
