@@ -4,8 +4,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>ファイルをdataURLに変換</title>
-  <meta name="description" content="ファイルをデータURLに変換するwebアプリです。このアプリでは選択したファイルを外部に一切送信しないので安心してご利用いただけます。"/>
+  <title>ファイルをdataURLに変換 | chakkun1121</title>
+  <link rel=canonical href="https://chakkun1121.github.io/dataURL/"/>
+  <meta name="description" content="画像ファイルなどのファイルをデータURLに変換するwebアプリです。このアプリではほとんどの形式のファイルをデータURLに変換できます。このアプリでは選択したファイルを外部に一切送信しないので安心してご利用いただけます。"/>
   <link href="style.css" rel="stylesheet" type="text/css" />
   <script src="script.js"></script>
 </head>
@@ -15,9 +16,19 @@
     <h1>ファイルをdataURLに変換</h1>
   </header>
   <div class="main">
-    <h2>変換するファイルを選択</h2><label><input type="file" id="input" onchange="view_file();"></label>
-    <h2>結果</h2>
-    <p id="output"></p>
+    <section id="app">
+      <h2>変換するファイルを選択</h2><label><input type="file" id="input" onchange="view_file();"/></label>
+      <h2>結果</h2>
+      <p id="output"></p>
+    </section>
+    <section id="howToUse">
+      <h2>使い方</h2>
+      <ol>
+        <li>ファイルを選択ボタンを押します。</li>
+        <li>ファイルがデータURLに変換するのを待ちます。</li>
+        <li>ファイルURLが出力されます。</li>
+      </ol>
+    </section>
 </body>
 
 </html>
