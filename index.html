@@ -18,7 +18,8 @@
   <div class="main">
     <h2 style="color:red">注意：ファイルが大きすぎるとページがクラッシュすることがございます。ご注意ください。</h2>
     <section id="app">
-      <h2>変換するファイルを選択</h2><label><input type="file" id="input" onchange="view_file();"/></label>
+      <h2>変換するファイルを選択</h2>
+      <label aria-label="ファイル選択ボタン"><input type="file" id="input" onchange="view_file();"/></label>
       <h2>結果</h2>
       <p id="output"></p>
     </section>
