@@ -1,81 +1,81 @@
 <!DOCTYPE html>
 <html lang="ja">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>ファイルをデータURL(dataURL)に変換 | chakkun1121</title>
-    <link rel="canonical" href="https://chakkun1121.github.io/dataURL/" />
-    <meta
-      name="description"
-      content="画像ファイルなどのファイルをデータURLに変換するwebアプリです。このアプリではほぼすべての拡張子のファイルをデータURLに変換できます。このアプリでは選択したファイルを外部に一切送信せず、ローカルで処理するので安心してご利用いただけます。"
-    />
-    <meta name="keywords" content="dataURL, データURL, ファイル, 変換" />
-    <link href="tailwind.css" rel="stylesheet" type="text/css" />
-    <script src="script.js" defer></script>
-    <!-- Google tag (gtag.js) -->
-    <script
-      defer
-      src="https://www.googletagmanager.com/gtag/js?id=G-9H4DM09XJM"
-    ></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
 
-      gtag("config", "G-9H4DM09XJM");
-    </script>
-  </head>
-  <body class="flex min-h-screen flex-col">
-    <header class="bg-green-400 p-2 text-center md:text-left">
-      <h1 class="r text-3xl font-bold">ファイルをデータURLに変換</h1>
-    </header>
-    <main class="main flex-1 p-2">
-      <h2 class="text-xl text-red-700 md:text-3xl">
-        注意：ファイルが大きすぎるとページがクラッシュすることがございます。ご注意ください。
-      </h2>
-      <section id="app">
-        <h2 class="text-x1 font-bold">変換するファイルを選択</h2>
-        <label aria-label="ファイル選択ボタン">
-          <input type="file" id="input" onchange="view_file();" />
-        </label>
-        <p class="truncate">
-          <spen class="select-none">結果：</spen>
-          <spen class="select-all" id="output" />
-        </p>
-      </section>
-      <section>
-        <h2 class="text-xl font-bold">このアプリについて</h2>
-        <p>
-          このアプリは画像ファイルなどのファイルをデータURLに変換するwebアプリです。
-          このアプリではほとんどの形式のファイルをデータURLに変換できます。
-          このアプリでは選択したファイルを外部に一切送信しないので安心してご利用いただけます。
-          (選択ボタンを押した回数は記録しております。)
-        </p>
-      </section>
-      <section id="howToUse">
-        <h2 class="text-xl font-bold">使い方</h2>
-        <ol class="list-decimal pl-6">
-          <li>ファイルを選択ボタンを押します。</li>
-          <li>ファイルがデータURLに変換するのを待ちます。</li>
-          <li>ファイルURLが出力されます。</li>
-        </ol>
-      </section>
-      <section>
-        <h2 class="text-xl font-bold">データURLとは</h2>
-        <blockquote cite="https://developer.mozilla.org/ja/docs/Web/HTTP/Basics_of_HTTP/Data_URLs">
-          <p>データ URL は data: スキームが先頭についた URL で、小さなファイルをインラインで文書に埋め込むことができます。</p>
-            <cite><a href="https://developer.mozilla.org/ja/docs/Web/HTTP/Basics_of_HTTP/Data_URLs" taget="_block">MDNより引用</cite>
-        </blockquote>
-        <p>このようにデータURLとはファイルをURLにするためのものです。小さなファイルの場合はhtmlに直接埋め込む方が読み込みが早くなることがあります。</p>
-      </section>
-    </main>
-    <footer class="bg-blue-700 p-2 text-center text-white">
-      <p>このサイトではgoogleAnalyticsを使用しています。</p>
-      <a href="https://chakkun1121.github.io/?from=dataURL" class="p-3">
-        © 2023 chakkun1121
-      </a>
-    </footer>
-  </body>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>ファイルをデータURL(dataURL)に変換 | chakkun1121</title>
+  <link rel="canonical" href="https://chakkun1121.github.io/dataURL/" />
+  <meta name="description"
+    content="画像ファイルなどのファイルをデータURLに変換するwebアプリです。このアプリではほぼすべての拡張子のファイルをデータURLに変換できます。このアプリでは選択したファイルを外部に一切送信せず、ローカルで処理するので安心してご利用いただけます。" />
+  <meta name="keywords" content="dataURL, データURL, ファイル, 変換" />
+  <link href="tailwind.css" rel="stylesheet" type="text/css" />
+  <script src="script.js" defer></script>
+  <!-- Google tag (gtag.js) -->
+  <script defer src="https://www.googletagmanager.com/gtag/js?id=G-9H4DM09XJM"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+
+    gtag("config", "G-9H4DM09XJM");
+  </script>
+</head>
+
+<body class="flex min-h-screen flex-col">
+  <header class="bg-green-400 p-2 text-center md:text-left">
+    <h1 class="r text-3xl font-bold">ファイルをデータURLに変換</h1>
+  </header>
+  <main class="main flex-1 p-2">
+    <h2 class="text-xl text-red-700 md:text-3xl">
+      このアプリではどれだけ大きなファイルでもタブがクラッシュすることなく変換できます(あまり大きすぎるとブラウザがクラッシュする可能性があります。)。
+    </h2>
+    <section id="app">
+      <h2 class="text-x1 font-bold">変換するファイルを選択</h2>
+      <label aria-label="ファイル選択ボタン">
+        <input type="file" id="input" onchange="viewFile()" />
+      </label>
+      <p class="truncate">
+        <spen class="select-none">結果：</spen>
+        <spen class="select-all" id="output" />
+      </p>
+    </section>
+    <section>
+      <h2 class="text-xl font-bold">このアプリについて</h2>
+      <p>
+        このアプリは画像ファイルなどのファイルをデータURLに変換するwebアプリです。
+        このアプリではほとんどの形式のファイルをデータURLに変換できます。
+        このアプリでは選択したファイルを外部に一切送信しないので安心してご利用いただけます。
+        (選択ボタンを押した回数は記録しております。)
+      </p>
+    </section>
+    <section id="howToUse">
+      <h2 class="text-xl font-bold">使い方</h2>
+      <ol class="list-decimal pl-6">
+        <li>ファイルを選択ボタンを押します。</li>
+        <li>ファイルがデータURLに変換するのを待ちます。</li>
+        <li>ファイルURLが出力されます。</li>
+      </ol>
+    </section>
+    <section>
+      <h2 class="text-xl font-bold">データURLとは</h2>
+      <blockquote cite="https://developer.mozilla.org/ja/docs/Web/HTTP/Basics_of_HTTP/Data_URLs">
+        <p>データ URL は data: スキームが先頭についた URL で、小さなファイルをインラインで文書に埋め込むことができます。</p>
+        <cite>
+          <a href="https://developer.mozilla.org/ja/docs/Web/HTTP/Basics_of_HTTP/Data_URLs"
+            target="_block">MDNより引用</cite>
+      </blockquote>
+      <p>このようにデータURLとはファイルをURLにするためのものです。小さなファイルの場合はhtmlに直接埋め込む方が読み込みが早くなることがあります。</p>
+    </section>
+  </main>
+  <footer class="bg-blue-700 p-2 text-center text-white">
+    <p>このサイトではgoogleAnalyticsを使用しています。</p>
+    <a href="https://chakkun1121.github.io/?from=dataURL" class="p-3">
+      © 2023 chakkun1121
+    </a>
+  </footer>
+</body>
+
 </html>
