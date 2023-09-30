@@ -28,66 +28,72 @@
   </head>
 
   <body class="flex min-h-screen flex-col">
-    <header class="bg-green-400 p-2 text-center md:text-left">
-      <h1 class="r text-3xl font-bold">ファイルをデータURLに変換</h1>
+    <header class="bg-green-400 p-2 text-center md:text-left p-2">
+      <h1>ファイルをデータURLに変換</h1>
     </header>
-    <main class="main flex-1 p-2">
-      <h2 class="text-xl text-red-700 md:text-3xl">
-        このアプリではどれだけ大きなファイルでもタブがクラッシュすることなく変換できます(あまり大きすぎるとブラウザがクラッシュする可能性があります。)。
-      </h2>
-      <section id="app">
-        <h2 class="text-x1 font-bold">変換するファイルを選択</h2>
-        <label aria-label="ファイル選択ボタン">
-          <input type="file" id="input" onchange="viewFile()" />
-        </label>
-        <p class="truncate">
-          <spen class="select-none">結果：</spen>
-          <spen class="select-all" id="output" />
-        </p>
-      </section>
-      <section>
-        <h2 class="text-xl font-bold">このアプリについて</h2>
-        <p>
-          このアプリは画像ファイルなどのファイルをデータURLに変換するwebアプリです。
-          このアプリではほとんどの形式のファイルをデータURLに変換できます。
-          このアプリでは選択したファイルを外部に一切送信しないので安心してご利用いただけます。
-        </p>
-      </section>
-      <section id="howToUse">
-        <h2 class="text-xl font-bold">使い方</h2>
-        <ol class="list-decimal pl-6">
-          <li>ファイルを選択ボタンを押します。</li>
-          <li>ファイルがデータURLに変換するのを待ちます。</li>
-          <li>ファイルURLが出力されます。</li>
-        </ol>
-      </section>
-      <section>
-        <h2 class="text-xl font-bold">データURLとは</h2>
-        <blockquote
-          cite="https://developer.mozilla.org/ja/docs/Web/HTTP/Basics_of_HTTP/Data_URLs"
-          class="bg-gray-200 m-2 p-2"
-        >
-          <p>
-            データ URL は data: スキームが先頭についた URL
-            で、小さなファイルをインラインで文書に埋め込むことができます。
-          </p>
-          <cite>
-            <a
-              href="https://developer.mozilla.org/ja/docs/Web/HTTP/Basics_of_HTTP/Data_URLs"
-              target="_block"
+    <div class="mb-36 mt-14 w-full flex-grow px-6">
+      <div
+        class="max-w-container mx-auto grid grid-cols-1 gap-8 sm:grid-cols-12"
+      >
+        <main class="gap-22 col-span-full flex flex-col">
+          <section id="app">
+            <h2>変換するファイルを選択</h2>
+            <label aria-label="ファイル選択ボタン">
+              <input type="file" id="input" onchange="viewFile()" />
+            </label>
+            <p class="truncate">
+              <spen class="select-none">結果：</spen>
+              <spen class="select-all" id="output" />
+            </p>
+          </section>
+          <section>
+            <h2>このアプリについて</h2>
+            <p>
+              このアプリは画像ファイルなどのファイルをデータURLに変換するwebアプリです。
+              このアプリではほとんどの形式のファイルをデータURLに変換できます。
+              このアプリでは選択したファイルを外部に一切送信しないので安心してご利用いただけます。
+            </p>
+          </section>
+          <section id="howToUse">
+            <h2>使い方</h2>
+            <ol class="list-decimal pl-6">
+              <li>ファイルを選択ボタンを押します。</li>
+              <li>ファイルがデータURLに変換するのを待ちます。</li>
+              <li>ファイルURLが出力されます。</li>
+            </ol>
+          </section>
+          <section>
+            <h2>データURLとは</h2>
+            <blockquote
+              cite="https://developer.mozilla.org/ja/docs/Web/HTTP/Basics_of_HTTP/Data_URLs"
+              class="bg-gray-200 m-2 p-2"
             >
-              MDNより引用
-            </a>
-          </cite>
-        </blockquote>
-        <p>
-          データURLとはファイルをURLにするためのものです。小さなファイルの場合はhtmlに直接埋め込む方が読み込みが早くなることがあります。
-        </p>
-      </section>
-    </main>
+              <p>
+                データ URL は data: スキームが先頭についた URL
+                で、小さなファイルをインラインで文書に埋め込むことができます。
+              </p>
+              <cite>
+                <a
+                  href="https://developer.mozilla.org/ja/docs/Web/HTTP/Basics_of_HTTP/Data_URLs"
+                  target="_block"
+                >
+                  MDNより引用
+                </a>
+              </cite>
+            </blockquote>
+            <p>
+              データURLとはファイルをURLにするためのものです。小さなファイルの場合はhtmlに直接埋め込む方が読み込みが早くなることがあります。
+            </p>
+          </section>
+        </main>
+      </div>
+    </div>
     <footer class="bg-blue-700 p-2 text-center text-white">
       <p>このサイトではgoogleAnalyticsを使用しています。</p>
-      <a href="https://chakkun1121.github.io/?from=dataURL" class="p-3">
+      <a
+        href="https://chakkun1121.github.io/?from=dataURL"
+        class="p-3 visited:text-white"
+      >
         © 2023 chakkun1121
       </a>
     </footer>
