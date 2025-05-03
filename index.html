@@ -1,22 +1,230 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ja">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>ファイルをデータURL(dataURL)に変換 | chakkun1121</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      ファイルを安全にデータURL(DataURL)へ変換 - オンラインツール | chakkun1121
+    </title>
     <link rel="canonical" href="https://chakkun1121.github.io/dataURL/" />
     <meta
       name="description"
-      content="画像ファイルなどのファイルをデータURLに変換するwebアプリです。このアプリではほぼすべての拡張子のファイルをデータURLに変換できます。このアプリでは選択したファイルを外部に一切送信せず、ローカルで処理するので安心してご利用いただけます。"
-    />
-    <meta name="keywords" content="dataURL, データURL, ファイル, 変換" />
-    <link href="tailwind.css" rel="stylesheet" type="text/css" />
+      content="画像やドキュメントなど、あらゆるファイルを簡単なステップでData URL (データURL) に変換する無料Webアプリ。ファイルはローカルで処理され、外部サーバーには一切送信されないため安全です。Web開発やデータ埋め込みに便利。" />
+    <meta
+      name="keywords"
+      content="dataURL, データURL, ファイル変換, base64変換, オンラインツール, 安全, ローカル処理, ファイルエンコード, 画像 データURL化" />
+
     <script src="script.js" defer></script>
+    <!-- Tailwind CSS CDN (本番環境ではビルドプロセス推奨) -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <style type="text/tailwindcss">
+      @layer utilities {
+        .drag-over {
+          @apply border-blue-500 bg-blue-100;
+        }
+        /* スピナーのスタイル */
+        .spinner {
+          border: 4px solid rgba(0, 0, 0, 0.1);
+          width: 24px;
+          height: 24px;
+          border-radius: 50%;
+          border-left-color: #09f;
+          animation: spin 1s ease infinite;
+        }
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+      }
+    </style>
+
+    <!-- SEO: 構造化データ (JSON-LD) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "ファイルをDataURLに変換",
+        "description": "ファイルを安全かつ簡単にData URL形式に変換するオンラインツール。",
+        "url": "https://chakkun1121.github.io/dataURL/",
+        "applicationCategory": "Utilities",
+        "operatingSystem": "All",
+        "browserRequirements": "Requires JavaScript. Requires HTML5.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "JPY"
+        },
+        "author": {
+          "@type": "Person",
+          "name": "chakkun1121",
+          "url": "https://chakkun1121.github.io/"
+        },
+        "keywords": "dataURL, データURL, ファイル変換, base64, ローカル処理, 安全",
+        "featureList": [
+          "File to Data URL conversion",
+          "Local processing (no upload)",
+          "Supports various file types",
+          "Easy to use interface",
+          "Copy result to clipboard"
+        ]
+      }
+    </script>
+  </head>
+
+  <body class="flex min-h-screen flex-col bg-gray-50 font-sans text-gray-800">
+    <header
+      class="bg-gradient-to-r from-green-500 to-teal-500 p-4 text-white shadow-md">
+      <div class="container mx-auto">
+        <h1 class="text-3xl font-bold text-center md:text-left">
+          ファイルをDataURLに変換
+        </h1>
+      </div>
+    </header>
+
+    <div class="flex-grow w-full container mx-auto px-4 py-8 md:py-12">
+      <div class="grid grid-cols-1 gap-12">
+        <main class="flex flex-col gap-8">
+          <!-- アプリケーションセクション -->
+          <section id="app" class="bg-white p-6 rounded-lg shadow-lg">
+            <h2 class="text-2xl font-semibold mb-4 text-gray-700">
+              変換ツール
+            </h2>
+            <!-- UI: ドラッグ＆ドロップエリア -->
+            <div
+              id="drop-zone"
+              class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center cursor-pointer hover:border-blue-400 transition-colors duration-300 ease-in-out mb-4">
+              <input type="file" id="input" class="hidden" />
+              <label for="input" class="cursor-pointer">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="mx-auto h-12 w-12 text-gray-400"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="1">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                </svg>
+                <p class="mt-2 text-sm text-gray-600">
+                  ここにファイルをドラッグ＆ドロップするか、
+                  <span class="font-medium text-blue-600 hover:text-blue-500"
+                    >クリックしてファイルを選択</span
+                  >
+                </p>
+              </label>
+            </div>
+            <div id="file-info" class="text-sm text-gray-500 mb-4 h-5"></div>
+            <!-- ファイル情報表示エリア -->
+
+            <!-- 結果表示エリア -->
+            <div class="mt-6">
+              <div class="flex justify-between items-center mb-2">
+                <span class="text-lg font-medium text-gray-700">結果:</span>
+                <div id="loading-indicator" class="hidden">
+                  <!-- UI: スピナー -->
+                  <div class="spinner"></div>
+                </div>
+                <!-- UI: コピーボタン -->
+                <button
+                  id="copy-button"
+                  onclick="copyResult()"
+                  class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-3 rounded text-sm transition-colors duration-300 ease-in-out hidden">
+                  コピー
+                </button>
+              </div>
+              <textarea
+                id="output"
+                class="w-full h-40 p-3 border border-gray-300 rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-blue-400 bg-gray-100 text-sm"
+                readonly
+                placeholder="ここに変換結果のDataURLが表示されます"></textarea>
+              <p id="error" class="text-red-600 mt-2 text-sm"></p>
+              <!-- エラーメッセージ -->
+            </div>
+          </section>
+
+          <!-- 説明セクション -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <section class="bg-white p-6 rounded-lg shadow">
+              <h2 class="text-xl font-semibold mb-3 text-gray-700">
+                このアプリについて
+              </h2>
+              <p class="text-gray-600 leading-relaxed">
+                このWebアプリは、画像、ドキュメント、その他のファイルをDataURL（データURL）形式に簡単に変換します。
+                ほとんどのファイル形式に対応しており、<strong
+                  class="font-semibold"
+                  >選択されたファイルはあなたのブラウザ内のみで処理され、外部サーバーに送信されることは一切ありません。</strong
+                >安心してご利用いただけます。
+              </p>
+            </section>
+
+            <section id="howToUse" class="bg-white p-6 rounded-lg shadow">
+              <h2 class="text-xl font-semibold mb-3 text-gray-700">使い方</h2>
+              <ol class="list-decimal pl-5 text-gray-600 space-y-1">
+                <li>
+                  上のエリアにファイルをドラッグ＆ドロップするか、クリックしてファイルを選択します。
+                </li>
+                <li>
+                  ファイルが自動的にDataURLに変換されるのを待ちます（処理中インジケーターが表示されます）。
+                </li>
+                <li>
+                  結果欄にDataURLが表示されたら、「コピー」ボタンでクリップボードにコピーできます。
+                </li>
+              </ol>
+            </section>
+          </div>
+
+          <section class="bg-white p-6 rounded-lg shadow">
+            <h2 class="text-xl font-semibold mb-3 text-gray-700">
+              DataURLとは
+            </h2>
+            <blockquote
+              cite="https://developer.mozilla.org/ja/docs/Web/HTTP/Basics_of_HTTP/Data_URLs"
+              class="border-l-4 border-gray-300 pl-4 py-2 mb-4 bg-gray-100 text-gray-700 italic">
+              <p>
+                データ URL は data: スキームが先頭についた URL
+                で、小さなファイルをインラインで文書に埋め込むことができます。
+              </p>
+              <footer class="text-sm mt-2">
+                出典:
+                <a
+                  href="https://developer.mozilla.org/ja/docs/Web/HTTP/Basics_of_HTTP/Data_URLs"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-blue-600 hover:underline"
+                  >MDN Web Docs</a
+                >
+              </footer>
+            </blockquote>
+            <p class="text-gray-600 leading-relaxed">
+              DataURLは、ファイルの内容そのものをURL文字列として表現する方法です。これにより、CSSやHTMLに小さな画像などを直接埋め込むことができ、外部ファイルへのリクエスト数を減らすことができます。
+              <br />
+              <strong class="font-semibold text-orange-700 mt-2 block"
+                >注意:</strong
+              >
+              DataURLは元のファイルサイズよりも大きくなる傾向があります（Base64エンコードのため約33%増加）。大きなファイルをDataURLに変換して共有する目的には適していません。あくまでWebページ内でのリソース埋め込みなどに利用するのが一般的です。
+            </p>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <footer class="bg-gray-800 p-4 text-center text-gray-400 text-sm mt-12">
+      <p>
+        このサイトではアクセス解析のためにGoogle Analyticsを使用しています。
+      </p>
+      <a
+        href="https://chakkun1121.github.io/?from=dataURL"
+        class="hover:text-white visited:text-gray-400 hover:underline">
+        © 2023-2024 chakkun1121
+      </a>
+    </footer>
+
     <!-- Google tag (gtag.js) -->
     <script
       defer
-      src="https://www.googletagmanager.com/gtag/js?id=G-9H4DM09XJM"
-    ></script>
+      src="https://www.googletagmanager.com/gtag/js?id=G-9H4DM09XJM"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag() {
@@ -25,78 +233,5 @@
       gtag("js", new Date());
       gtag("config", "G-9H4DM09XJM");
     </script>
-  </head>
-
-  <body class="flex min-h-screen flex-col">
-    <header class="bg-green-400 p-2 text-center md:text-left p-2">
-      <h1>ファイルをデータURLに変換</h1>
-    </header>
-    <div class="mb-36 mt-14 w-full flex-grow px-6">
-      <div
-        class="max-w-container mx-auto grid grid-cols-1 gap-8 sm:grid-cols-12"
-      >
-        <main class="gap-22 col-span-full flex flex-col">
-          <section id="app">
-            <h2>変換するファイルを選択</h2>
-            <label aria-label="ファイル選択ボタン">
-              <input type="file" id="input" onchange="viewFile()" />
-            </label>
-            <p class="truncate">
-              <spen class="select-none">結果：</spen>
-              <spen class="select-all" id="output" />
-            </p>
-          </section>
-          <section>
-            <h2>このアプリについて</h2>
-            <p>
-              このアプリは画像ファイルなどのファイルをデータURLに変換するwebアプリです。
-              このアプリではほとんどの形式のファイルをデータURLに変換できます。
-              このアプリでは選択したファイルを外部に一切送信しないので安心してご利用いただけます。
-            </p>
-          </section>
-          <section id="howToUse">
-            <h2>使い方</h2>
-            <ol class="list-decimal pl-6">
-              <li>ファイルを選択ボタンを押します。</li>
-              <li>ファイルがデータURLに変換するのを待ちます。</li>
-              <li>ファイルURLが出力されます。</li>
-            </ol>
-          </section>
-          <section>
-            <h2>データURLとは</h2>
-            <blockquote
-              cite="https://developer.mozilla.org/ja/docs/Web/HTTP/Basics_of_HTTP/Data_URLs"
-              class="bg-gray-200 m-2 p-2"
-            >
-              <p>
-                データ URL は data: スキームが先頭についた URL
-                で、小さなファイルをインラインで文書に埋め込むことができます。
-              </p>
-              <cite>
-                <a
-                  href="https://developer.mozilla.org/ja/docs/Web/HTTP/Basics_of_HTTP/Data_URLs"
-                  target="_block"
-                >
-                  MDNより引用
-                </a>
-              </cite>
-            </blockquote>
-            <p>
-              データURLとはファイルをURLにするためのものです。小さなファイルの場合はhtmlに直接埋め込む方が読み込みが早くなることがあります。<br/>
-              <span className="bold">このサイトは一般的なサーバーに画像などを保存して共有するサイトではありません。データURLとはURL文字列内にファイルのデータ本体を入れるので元のファイルかそれ以上の大きさになります。そのため、ファイル共有目的での利用はおすすめできません。</span>
-            </p>
-          </section>
-        </main>
-      </div>
-    </div>
-    <footer class="bg-blue-700 p-2 text-center text-white">
-      <p>このサイトではgoogleAnalyticsを使用しています。</p>
-      <a
-        href="https://chakkun1121.github.io/?from=dataURL"
-        class="p-3 visited:text-white"
-      >
-        © 2023 chakkun1121
-      </a>
-    </footer>
   </body>
 </html>
