@@ -1,32 +1,22 @@
-/**
- *
- * @param {File} file
- * @returns {Promise<String>} fileURL
- */
-function loadFile(file) {
-  return new Promise((resolve, reject) => {
-    if (!file) reject("No file");
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.addEventListener(
-      "load",
-      function () {
-        const fileURL = reader.result;
-        resolve(fileURL);
-      },
-      false
-    );
-    reader.addEventListener(
-      "error",
-      function (error) {
-        reject(error);
-      },
-      false
-    );
-  });
-}
-onmessage = async function (e) {
+// webWorker.js
+self.onmessage = function (e) {
   const file = e.data;
-  const fileURL = await loadFile(file);
-  postMessage(fileURL);
+  const reader = new FileReader();
+
+  reader.onload = function (event) {
+    // 読み込み成功時にメインスレッドに結果を返す
+    self.postMessage(event.target.result);
+  };
+
+  reader.onerror = function (event) {
+    // エラー情報をメインスレッドに送ることも検討可能
+    console.error("FileReader error:", event.target.error);
+    // エラーをpostMessageで送る場合:
+    // self.postMessage({ error: event.target.error.message });
+    // 現在の実装ではメインスレッドの worker.onerror でキャッチする
+    throw event.target.error; // エラーを発生させて worker.onerror をトリガー
+  };
+
+  // ファイルをDataURLとして読み込む
+  reader.readAsDataURL(file);
 };
